@@ -1,0 +1,92 @@
+pragma solidity 0.5.1;
+
+contract ciaAerea {
+    
+    
+    address payable public idCiaAerea;
+    string nomeCiaAerea;
+    uint qtdAssentosDisponiveis;
+    uint percentualDeComissaoFinalVenda;
+    uint valorPassagemCiaAerea;
+    uint qtdPassagemAgenciaA;
+    uint qtdPassagemAgenciaB;
+    uint qtdPassagemAgenciaC;
+    uint valorComissaoCiaAerea;
+    bool passagemEsgotadas;
+    bool jaFoiPagoComissaoCiaAerea;
+    
+    struct Agencia {
+        address idAgencia;
+        string nomeAgencia;
+        uint percentualDePassagemDisponivel;
+        uint percentualValorDeVenda;
+        uint valorFinalDeVenda;
+        
+    }    
+        
+    Agencia [] public registroCiaAerea1;
+    mapping(address => Agencia) public registroCiaAerea2;
+    
+   
+   constructor (address payable _contaCiaAerea
+   ) public { 
+       nomeCiaAerea = "TAP" ;
+       idCiaAerea =  _contaCiaAerea;
+       qtdAssentosDisponiveis = 272;
+       percentualDeComissaoFinalVenda = 70;
+       valorPassagemCiaAerea = 350000;
+       qtdPassagemAgenciaA = 164;
+       qtdPassagemAgenciaB = 54 ;
+       qtdPassagemAgenciaC = 54;
+      
+   }
+   
+        function registraAgencia(address paramIdAgencia, string memory paramNomeAgencia, uint parampercentualDePassagemDisponivel, uint paramPercentualValorDeVenda ) public {
+        Agencia memory novaAgencia = Agencia(paramIdAgencia, paramNomeAgencia, parampercentualDePassagemDisponivel, paramPercentualValorDeVenda, 0);
+        
+        registroCiaAerea1.push(novaAgencia);
+        
+        registroCiaAerea2[paramIdAgencia] = novaAgencia;
+    }
+    
+    function calculaValorPassagemFinalAssentos () public view returns (uint256) {
+      uint256 ValorFinalAssentos =(qtdAssentosDisponiveis*valorPassagemCiaAerea);
+      return ValorFinalAssentos;
+
+   }
+   
+   function calculaPercentualAgenciaA () public view returns (uint256) {
+      uint256 ValorVendaAgenciaAParaCiaAerea =(qtdAssentosDisponiveis*60)/100* valorPassagemCiaAerea*70/100;
+      return ValorVendaAgenciaAParaCiaAerea;
+
+
+      if (qtdPassagemAgenciaA <= 164) { 
+
+        ValorVendaAgenciaAParaCiaAerea = (qtdAssentosDisponiveis*60)/100* valorPassagemCiaAerea*70/100;
+        
+    }
+
+    }
+    
+    function calculaPercentualAgenciaB () public view returns (uint256) {
+      uint256 ValorVendaAgenciaBParaCiaAerea =(qtdAssentosDisponiveis*20)/100* valorPassagemCiaAerea*70/100;
+      return ValorVendaAgenciaBParaCiaAerea;
+
+       if (qtdPassagemAgenciaB <= 54) { 
+
+        ValorVendaAgenciaBParaCiaAerea = (qtdAssentosDisponiveis*20)/100* valorPassagemCiaAerea*70/100;
+     
+    }
+    }
+   function calculaPercentualAgenciaC () public view returns (uint256) {
+      uint256 ValorVendaAgenciaCParaCiaAerea =(qtdAssentosDisponiveis*20)/100* valorPassagemCiaAerea*70/100;
+      return ValorVendaAgenciaCParaCiaAerea;
+      
+    if (qtdPassagemAgenciaC <= 54) { 
+
+    ValorVendaAgenciaCParaCiaAerea = (qtdAssentosDisponiveis*20)/100* valorPassagemCiaAerea*70/100;
+ 
+   } 
+   } 
+   
+}
